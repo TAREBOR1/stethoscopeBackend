@@ -96,7 +96,7 @@ const requestOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } }); 
 
   if (!user || user.otp !== otp || user.otpExpiry < new Date()) {
     return res.status(401).json({ message: 'Invalid or expired OTP' });
