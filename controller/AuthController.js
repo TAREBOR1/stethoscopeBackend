@@ -54,7 +54,7 @@ const RegisterUser = async (req, res) => {
 const requestOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email });
+     const user = await User.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
